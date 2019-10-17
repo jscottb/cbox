@@ -42,16 +42,16 @@ static char *sstristr        (const char *str1, const char *str2);
 /*
    Removes known chars from a string.
 */
-char *RemoveChars ( char *strbuf, char *chrstorm )
+char *RemoveChars (char *strbuf, char *chrstorm)
 {
    char *offset;
 
-   offset = ( char * ) NULL;
+   offset = (char *) NULL;
 
-   while ( *strbuf ) {
-      offset = strpbrk ( strbuf, chrstorm );
-      if ( offset ) {
-         strcpy ( offset, ( offset + 1 ) );
+   while (*strbuf) {
+      offset = strpbrk (strbuf, chrstorm);
+      if (offset) {
+         strcpy (offset, (offset + 1));
       }
 
       else
@@ -64,16 +64,16 @@ char *RemoveChars ( char *strbuf, char *chrstorm )
 /*
    Subsitutes known char(s) in a string with another.
 */
-char *ReplaceCharsWith ( char *strbuf, char *chrstorm, char chartorlcwith )
+char *ReplaceCharsWith (char *strbuf, char *chrstorm, char chartorlcwith)
 {
    char *offset;
 
-   offset = ( char * ) NULL;
+   offset = (char *) NULL;
 
-   while ( *strbuf ) {
-      offset = strpbrk ( strbuf, chrstorm );
-      if ( offset ) {
-         * ( offset ) = chartorlcwith;
+   while (*strbuf) {
+      offset = strpbrk (strbuf, chrstorm);
+      if (offset) {
+         *(offset) = chartorlcwith;
       }
 
       else
@@ -86,11 +86,11 @@ char *ReplaceCharsWith ( char *strbuf, char *chrstorm, char chartorlcwith )
 /*
    Inserts a string into another string.
 */
-char *InsertString ( char *strbuf, char *chrstoins, int pos )
+char *InsertString (char *strbuf, char *chrstoins, int pos)
 {
-   memmove ( ( strbuf + pos ) + strlen ( chrstoins ),
-           ( strbuf + pos ), strlen ( ( strbuf + pos ) ) + 1 );
-   memcpy ( ( strbuf + pos ), chrstoins, strlen ( chrstoins ) );
+   memmove ((strbuf + pos) + strlen (chrstoins),
+           (strbuf + pos), strlen ((strbuf + pos)) + 1);
+   memcpy ((strbuf + pos), chrstoins, strlen (chrstoins));
 
    return strbuf;
 }
@@ -98,11 +98,11 @@ char *InsertString ( char *strbuf, char *chrstoins, int pos )
 /*
    Inserts a char into a string.
 */
-char *InsertChar ( char *strbuf, char chrtoins, int pos )
+char *InsertChar (char *strbuf, char chrtoins, int pos)
 {
-   memmove ( ( strbuf + pos ) + 1,
-           ( strbuf + pos ), strlen ( ( strbuf + pos ) ) + 1 );
-   *( strbuf + pos ) = chrtoins;
+   memmove ((strbuf + pos) + 1,
+           (strbuf + pos), strlen ((strbuf + pos)) + 1);
+   *(strbuf + pos) = chrtoins;
 
    return strbuf;
 }
@@ -110,10 +110,10 @@ char *InsertChar ( char *strbuf, char chrtoins, int pos )
 /*
    Pads a string to the left, to a know length.
 */
-char *LeftFill ( char *strbuf, char chrtofill, unsigned len )
+char *LeftFill (char *strbuf, char chrtofill, unsigned len)
 {
-   while ( strlen ( strbuf ) < len ) {
-      InsertChar ( strbuf, chrtofill, 0 );
+   while (strlen (strbuf) < len) {
+      InsertChar (strbuf, chrtofill, 0);
    }
 
    return strbuf;
@@ -122,10 +122,10 @@ char *LeftFill ( char *strbuf, char chrtofill, unsigned len )
 /*
    Pads a string to the right, to a known length.
 */
-char *RightFill ( char *strbuf, char chrtofill, unsigned len )
+char *RightFill (char *strbuf, char chrtofill, unsigned len)
 {
-   while ( strlen ( strbuf ) < len ) {
-      InsertChar ( strbuf, chrtofill, strlen ( strbuf ) );
+   while (strlen (strbuf) < len) {
+      InsertChar (strbuf, chrtofill, strlen (strbuf));
    }
 
    return strbuf;
@@ -135,22 +135,25 @@ char *RightFill ( char *strbuf, char chrtofill, unsigned len )
    Eats the white spaces from the left side of a string.
    This function maintains a proper pointer head.
 */
-char *TrimLeft ( char *strbuf )
+char *TrimLeft (char *strbuf)
 {
-   while ( isspace ( ( int ) *strbuf ) ) {
-      DeleteChar ( strbuf, 0 );
+   if (*strbuf) {     
+      while (isspace ((int) *strbuf)) {
+         DeleteChar (strbuf, 0);
+      }
    }
-
    return strbuf;
 }
 
 /*
    Eats the white spaces from the right side of a string.
 */
-char *TrimRight ( char *strbuf )
+char *TrimRight (char *strbuf)
 {
-   while ( isspace ( ( int ) *( strbuf + strlen ( strbuf ) - 1 ) ) ) {
-      *( strbuf + strlen ( strbuf ) - 1 ) = 0;
+   if (*strbuf) {  
+      while (isspace ((int) *(strbuf + strlen (strbuf) - 1))) {
+         *(strbuf + strlen (strbuf) - 1) = 0;
+      }
    }
 
    return strbuf;
@@ -159,11 +162,12 @@ char *TrimRight ( char *strbuf )
 /*
    Eats the white spaces from the left and right sides of a string.
 */
-char *Trim ( char *strIn )
+char *Trim (char *strIn)
 {
-   TrimLeft ( strIn );
-   TrimRight ( strIn );
-
+   if (*strIn) {     
+      TrimLeft (strIn);
+      TrimRight (strIn);
+   }
    return strIn;
 }
 
@@ -172,20 +176,20 @@ char *Trim ( char *strIn )
    Searches for all occurances of a string, and replaces 
    it with another string.
 */
-char *SearchReplace ( char *strbuf, char *strtofnd, char *strtoins )
+char *SearchReplace (char *strbuf, char *strtofnd, char *strtoins)
 {
    char *offset, *strbase;
 
-   offset = strbase = ( char * ) NULL;
+   offset = strbase = (char *) NULL;
 
-   while ( *strbuf ) {
-      offset = sstristr ( !offset ? strbuf : strbase, strtofnd );
-      if ( offset ) {
-         strbase = ( offset + strlen ( strtoins ) );
-         strcpy ( offset, ( offset + strlen ( strtofnd ) ) );
-         memmove ( offset + strlen ( strtoins ),
-                   offset, strlen ( offset ) + 1 );
-         memcpy ( offset, strtoins, strlen ( strtoins ) );
+   while (*strbuf) {
+      offset = sstristr (!offset ? strbuf : strbase, strtofnd);
+      if (offset) {
+         strbase = (offset + strlen (strtoins));
+         strcpy (offset, (offset + strlen (strtofnd)));
+         memmove (offset + strlen (strtoins),
+                   offset, strlen (offset) + 1);
+         memcpy (offset, strtoins, strlen (strtoins));
       }
 
       else
@@ -198,16 +202,16 @@ char *SearchReplace ( char *strbuf, char *strtofnd, char *strtoins )
 /* 
    Deletes all occurances of one string, in another string.
 */
-char *DeleteString ( char *strbuf, char *strtodel )
+char *DeleteString (char *strbuf, char *strtodel)
 {
    char *offset;
 
-   offset = ( char * ) NULL;
+   offset = (char *) NULL;
 
-   while ( *strbuf ) {
-      offset = strstr ( strbuf, strtodel );
-      if ( offset ) {
-         strcpy ( offset, ( offset + strlen ( strtodel ) ) );
+   while (*strbuf) {
+      offset = strstr (strbuf, strtodel);
+      if (offset) {
+         strcpy (offset, (offset + strlen (strtodel)));
       }
       else
          break;
@@ -219,31 +223,36 @@ char *DeleteString ( char *strbuf, char *strtodel )
 /* 
    Gets a sub-string from a formated string. Nice strtok replacement.
 */
-char *GetStrFld ( char *strbuf, int fldno, int ofset, char *sep, char *retstr )
+char *GetStrFld (char *strbuf, int fldno, int ofset, char *sep, char *retstr)
 {
    char *offset, *strptr;
    int curfld;
 
-   offset = strptr = ( char * ) NULL;
+   if (!*strbuf) {
+      *retstr = 0;
+      return (retstr);
+   }
+
+   offset = strptr = (char *) NULL;
    curfld = 0;
 
    strbuf += ofset;
 
-   while ( *strbuf ) {
+   while (*strbuf) {
       strptr = !offset ? strbuf : offset;
-      offset = strpbrk ( ( !offset ? strbuf : offset ), sep );
+      offset = strpbrk ((!offset ? strbuf : offset), sep);
 
-      if ( offset )
+      if (offset)
          offset++;
-      else if ( curfld != fldno ) {
-         *retstr = ( char ) 0;
+      else if (curfld != fldno) {
+         *retstr = (char) 0;
          break;
       }
 
-      if ( curfld == fldno ) {
-         strncpy ( retstr, strptr,
-         ( int )( !offset ? strlen ( strptr ) + 1 : ( int ) ( offset - strptr ) ) );
-         if ( offset )
+      if (curfld == fldno) {
+         strncpy (retstr, strptr,
+         (int)(!offset ? strlen (strptr) + 1 : (int) (offset - strptr)));
+         if (offset)
             retstr[offset - strptr - 1] = 0;
 
          break;
@@ -256,27 +265,27 @@ char *GetStrFld ( char *strbuf, int fldno, int ofset, char *sep, char *retstr )
 /* 
    Inserts a string into a fomated string.
 */
-char *SetStrFld ( char *strbuf, int fldno, int ofset, char *sep, char *strToIns )
+char *SetStrFld (char *strbuf, int fldno, int ofset, char *sep, char *strToIns)
 {
    char *offset, *strptr, *strHead;
    int curfld;
 
-   offset = strptr = ( char * ) NULL;
+   offset = strptr = (char *) NULL;
    curfld = 0;
 
    strHead = strbuf;
    strbuf += ofset;
 
-   while ( *strbuf ) {
+   while (*strbuf) {
       strptr = !offset ? strbuf : offset;
-      offset = strpbrk ( ( !offset ? strbuf : offset ), sep );
+      offset = strpbrk ((!offset ? strbuf : offset), sep);
 
-      if ( offset )
+      if (offset)
          offset++;
 
-      if ( curfld == fldno ) {
-         InsertString ( strptr, strToIns,
-                     ( int )( !offset ? strlen ( strptr ) : ( int ) ( offset - strptr ) ) );
+      if (curfld == fldno) {
+         InsertString (strptr, strToIns,
+                     (int)(!offset ? strlen (strptr) : (int) (offset - strptr)));
          break;
       }
       curfld++;
@@ -289,29 +298,33 @@ char *SetStrFld ( char *strbuf, int fldno, int ofset, char *sep, char *strToIns 
    Get the length of as a field in a string.  Used mainly for getting
    the len to malloc mem to call GetStrFld with.
 */
-int GetStrFldLen ( char *strbuf, int fldno, int ofset, char *sep )
+int GetStrFldLen (char *strbuf, int fldno, int ofset, char *sep)
 {
    char *offset, *strptr;
    int curfld, retlen = 0;
 
-   offset = strptr = ( char * ) NULL;
+   if (!*strbuf) {
+      return (0);
+   }
+
+   offset = strptr = (char *) NULL;
    curfld = 0;
 
    strbuf += ofset;
 
-   while ( *strbuf ) {
+   while (*strbuf) {
       strptr = !offset ? strbuf : offset;
-      offset = strpbrk ( ( !offset ? strbuf : offset ), sep );
+      offset = strpbrk ((!offset ? strbuf : offset), sep);
 
-      if ( offset )
+      if (offset)
          offset++;
-      else if ( curfld != fldno ) {
+      else if (curfld != fldno) {
          retlen = 0;
          break;
       }
 
-      if ( curfld == fldno ) {
-         retlen = ( int )( !offset ? strlen ( strptr ) + 1 : ( int ) ( offset - strptr ) );
+      if (curfld == fldno) {
+         retlen = (int)(!offset ? strlen (strptr) + 1 : (int) (offset - strptr));
          break;
       }
       curfld++;
@@ -322,13 +335,13 @@ int GetStrFldLen ( char *strbuf, int fldno, int ofset, char *sep )
 /* 
    Sets a string to upper case.
 */
-char *Uppercase ( char *strbuf )
+char *Uppercase (char *strbuf)
 {
    char *strbase;
 
    strbase = strbuf;   
 
-   while ( *strbuf ) {
+   while (*strbuf) {
       *strbuf = *strbuf <= 'z' && *strbuf >= 'a' ?
                 *strbuf + 'A' - 'a' : *strbuf;
       strbuf++;
@@ -340,13 +353,13 @@ char *Uppercase ( char *strbuf )
 /* 
    Sets a string to lower case.
 */
-char *Lowercase ( char *strbuf )
+char *Lowercase (char *strbuf)
 {
    char *strbase;
 
    strbase = strbuf;   
 
-   while ( *strbuf ) {
+   while (*strbuf) {
       *strbuf = *strbuf <= 'Z' && *strbuf >= 'A' ?
                 *strbuf + 'a' - 'A' : *strbuf;
       strbuf++;
@@ -358,24 +371,28 @@ char *Lowercase ( char *strbuf )
 /* 
    Sees if two strings are equal.
 */
-int ismatch ( char *str1, char *str2 )
+int ismatch (char *str1, char *str2)
 {
     int ret = 1;
 
-    while ( *str1 ) {
-       if ( toupper ( ( int ) *str1 ) == toupper ( ( int ) *str2 ) ) {
+    if (!*str1)
+       ret = 1;
+
+    while (*str1) {
+       if (toupper ((int) *str1) == toupper ((int) *str2)) {
           str1++;
           str2++;
        }
 
-       else
+       else {
           break;
+       }
     }
 
-    if ( !*str1 )
+    if (!*str1)
        ret = 0;
 
-    if ( !ret && !isspace ( *str2 ) && *str2 && isalnum ( *str2 ) )
+    if (!ret && !isspace (*str2) && *str2 && isalnum (*str2))
        ret = 1;
 
     return ret;
@@ -384,88 +401,88 @@ int ismatch ( char *str1, char *str2 )
 /* 
    Find a string inside a text file.
 */
-char *FindStrInFile ( FILE *fp, char *strToFind, char *strRetStr, int bcpy )
+char *FindStrInFile (FILE *fp, char *strToFind, char *strRetStr, int bcpy)
 {
    char strLine[1025];
    int nfnd = 0;
 
-   if ( bcpy )
+   if (bcpy)
       *strRetStr = 0;
 
-   while ( 1 ) {
-      fgets ( strLine, 1023, fp );
-      Trim ( strLine );
+   while (1) {
+      fgets (strLine, 1023, fp);
+      Trim (strLine);
 
-      Uppercase ( strLine );
-      Uppercase ( strToFind );
-      if ( strstr ( strLine, strToFind ) ) {
-         if ( bcpy )
-            strcpy ( strRetStr, strLine );
+      Uppercase (strLine);
+      Uppercase (strToFind);
+      if (strstr (strLine, strToFind)) {
+         if (bcpy)
+            strcpy (strRetStr, strLine);
          nfnd = 1;
          break;
       }
 
-      if ( feof ( fp ) ) {
+      if (feof (fp)) {
          break;
       }
    }         
  
-   if ( bcpy )
+   if (bcpy)
       return strRetStr;
    else
-      return ( char * ) NULL;
+      return (char *) NULL;
 }
 
 /* 
    Support function for .ini stuff.
 */
-char *MatchStrInProfile ( FILE *fp, char *strToFind, char *strRetStr,
-                          int bsec, int nlen )
+char *MatchStrInProfile (FILE *fp, char *strToFind, char *strRetStr,
+                          int bsec, int nlen)
 {
    char *strLine;
 
-   strLine = ( char * ) malloc ( nlen + 1 );
+   strLine = (char *) malloc (nlen + 1);
 
-   while ( 1 ) {
-      ReadLine ( fp, strLine, nlen );
-      Trim ( strLine );
+   while (1) {
+      ReadLine (fp, strLine, nlen);
+      Trim (strLine);
 
-      if ( !ismatch ( strToFind, strLine ) ) {
-         strcpy ( strRetStr, strLine );
+      if (!ismatch (strToFind, strLine)) {
+         strcpy (strRetStr, strLine);
          break;
       }
 
-      if ( !bsec && *strLine == '[' ) {
+      if (!bsec && *strLine == '[') {
          char *stroffset;
-         stroffset = strchr ( strLine, ']' );
-         if ( stroffset ) {
+         stroffset = strchr (strLine, ']');
+         if (stroffset) {
             *strRetStr = 0;
             break;
          }
       }
   
-      if ( feof ( fp ) ) {
+      if (feof (fp)) {
          *strRetStr = 0;
          break;
       }
    }         
 
-   free ( strLine );
+   free (strLine);
    return strRetStr;
 }
 
 /* 
    Read nlen bytes from a stream, or to eof/eol.
 */
-char *ReadLine ( FILE *fp, char *strRetStr, int nlen )
+char *ReadLine (FILE *fp, char *strRetStr, int nlen)
 {
    char ch;
    char *strBase = strRetStr;
 
-   while ( !feof ( fp ) && nlen ) {
-     ch = ( char ) getc ( fp ); 
+   while (!feof (fp) && nlen) {
+     ch = (char) getc (fp); 
 
-     if ( ch != '\n' && ch != EOF ) {
+     if (ch != '\n' && ch != EOF) {
         *strRetStr = ch;
         strRetStr++;
         nlen--;
@@ -474,87 +491,87 @@ char *ReadLine ( FILE *fp, char *strRetStr, int nlen )
         break;
    }
 
-   *strRetStr = ( char ) 0;
+   *strRetStr = (char) 0;
 
-   return strlen ( strBase ) ? strBase : ( char * ) NULL;
+   return strlen (strBase) ? strBase : (char *) NULL;
 }
 
 /* 
    Get the everything on a line past a '='.
 */
-char *GetEquVal ( char *strLine, char *strRetStr )
+char *GetEquVal (char *strLine, char *strRetStr)
 {
    char *strOffset;
 
-   strOffset = strstr ( strLine, "=" );
+   strOffset = strstr (strLine, "=");
 
-   if ( strOffset )
-      TrimLeft ( ( strOffset + 1 ) );
+   if (strOffset)
+      TrimLeft ((strOffset + 1));
 
-   return strcpy ( strRetStr,
-                 ( strOffset && *( strOffset + 1 ) ) ? ( strOffset + 1 ) : "" );
+   return strcpy (strRetStr,
+                 (strOffset && *(strOffset + 1)) ? (strOffset + 1) : "");
 }
 
 /* 
     Gets the next line in a file, and trims the white spaces from it. 
 */
-char *GetCleanLine ( FILE *fp, char *strRetStr, int nlen )
+char *GetCleanLine (FILE *fp, char *strRetStr, int nlen)
 {
    *strRetStr = 0;
 
-   ReadLine ( fp, strRetStr, nlen );
-   TrimLeft ( strRetStr );
-   TrimRight ( strRetStr );
+   ReadLine (fp, strRetStr, nlen);
+   TrimLeft (strRetStr);
+   TrimRight (strRetStr);
 
    return strRetStr;
 }
 
 /* 
-    Structured Config file reader.  ( Windows .ini style. ) 
+    Structured Config file reader.  (Windows .ini style.) 
     Returns length of entry.  A 0 if no entry is found, or -1 if
     the file could not be opened, and a -2 if a malloc err occurs.
 */
-int GetProfileStr ( char *strSection, char *strEntry, char *strDefault,
-                    char *strRetStr, int nlen, char *strFile )
+int GetProfileStr (char *strSection, char *strEntry, char *strDefault,
+                    char *strRetStr, int nlen, char *strFile)
 {
    FILE *fp;
    int nRetLen = 0;
    char *ptrSection;
 
-   ptrSection = ( char * ) malloc ( strlen ( strSection ) + 3 );
-   fp = fopen ( strFile, "rb" );
+   ptrSection = (char *) malloc (strlen (strSection) + 3);
+   fp = fopen (strFile, "rb");
 
-   if ( !ptrSection || !fp ) {
-      strcpy ( strRetStr, strDefault );
-      if ( ptrSection )
-         free ( ptrSection );
-      if ( fp ) 
-         fclose ( fp );
+   if (!ptrSection || !fp) {
+      strcpy (strRetStr, strDefault);
+      if (ptrSection)
+         free (ptrSection);
+      if (fp) 
+         fclose (fp);
       else 
          return -1;
       return -2;
    }
 
-   strcpy ( ptrSection, strSection );
-   InsertChar ( ptrSection, '[', 0 );
-   InsertChar ( ptrSection, ']', strlen ( ptrSection ) );
+   strcpy (ptrSection, strSection);
+   InsertChar (ptrSection, '[', 0);
+   InsertChar (ptrSection, ']', strlen (ptrSection));
 
-   MatchStrInProfile ( fp, ptrSection, ptrSection, 1, nlen );
+   MatchStrInProfile (fp, ptrSection, ptrSection, 1, nlen);
    
-   if ( *ptrSection ) {
-      MatchStrInProfile ( fp, strEntry, strRetStr, 0, nlen );
-      nRetLen = strlen ( strRetStr );
+   if (*ptrSection) {
+      MatchStrInProfile (fp, strEntry, strRetStr, 0, nlen);
+      nRetLen = strlen (strRetStr);
    }
    else {
       nRetLen = 0;
    }
 
-   if ( !nRetLen ) {
-      strcpy ( strRetStr, strDefault );
+   if (!nRetLen) {
+      strcpy (strRetStr, strDefault);
    }
 
-   fclose ( fp );
-   free ( ptrSection );
+   fclose (fp);
+   free (ptrSection);
    return nRetLen;
 }
 
@@ -562,49 +579,49 @@ int GetProfileStr ( char *strSection, char *strEntry, char *strDefault,
     Nice little function to compare a string with a set of strings. 
     Returns >= 0 if match is found.  A -1 if no match is found.
 */
-int MatchTable ( char *strbuf, char *strmatch, char *strsept, int ncase )
+int MatchTable (char *strbuf, char *strmatch, char *strsept, int ncase)
 {
    int nstate = -1, cnt = 0, icmpres;
    int iLen;
    char *strtemp; //[61];
 
-   Trim ( strbuf );
-   while ( 1 ) {
-      iLen = GetStrFldLen ( strmatch, cnt, 0, strsept );
-      strtemp = ( char * ) malloc ( sizeof ( char ) * iLen + 1 );
-      GetStrFld ( strmatch, cnt, 0, strsept, strtemp );
-      if ( *strtemp ) {
-         Trim ( strtemp );
+   Trim (strbuf);
+   while (1) {
+      iLen = GetStrFldLen (strmatch, cnt, 0, strsept);
+      strtemp = (char *) malloc (sizeof (char) * iLen + 1);
+      GetStrFld (strmatch, cnt, 0, strsept, strtemp);
+      if (*strtemp) {
+         Trim (strtemp);
 
-         if ( !ncase ) {
-            icmpres = sstricmp ( strbuf, strtemp );
+         if (!ncase) {
+            icmpres = sstricmp (strbuf, strtemp);
          }
          
          else {
-            icmpres = strcmp ( strbuf, strtemp );
+            icmpres = strcmp (strbuf, strtemp);
          }
 
-         if ( !icmpres ) {
+         if (!icmpres) {
             nstate = cnt;
-            free ( strtemp );
+            free (strtemp);
             break; 
          }
         
          else {
-            if ( !strcmp ( strbuf, strtemp ) ) {
+            if (!strcmp (strbuf, strtemp)) {
                nstate = cnt;
-               free ( strtemp );
+               free (strtemp);
                break; 
             }
          }
       }         
       else {
          nstate = -1;
-         free ( strtemp );
+         free (strtemp);
          break; 
       }
       cnt++;
-      free ( strtemp );
+      free (strtemp);
    }
    
    return nstate;
@@ -614,33 +631,33 @@ int MatchTable ( char *strbuf, char *strmatch, char *strsept, int ncase )
     Nice little function to compare a string with a set of strings. 
     Returns >= 0 if match is found.  A -1 if no match is found.
 */
-int StrStrMatch ( char *strbuf, char *strmatch, char *strsept, int ncase )
+int StrStrMatch (char *strbuf, char *strmatch, char *strsept, int ncase)
 {
    int nstate = -1, cnt = 0, icmpres;
    char *strtemp;
    
-   strtemp = ( char * ) malloc ( strlen ( strbuf ) * 2 );
-   while ( 1 ) {
-      GetStrFld ( strmatch, cnt, 0, strsept, strtemp );
-      if ( *strtemp ) {
-         TrimLeft ( strtemp );
-         TrimRight ( strtemp );
+   strtemp = (char *) malloc (strlen (strbuf) * 2);
+   while (1) {
+      GetStrFld (strmatch, cnt, 0, strsept, strtemp);
+      if (*strtemp) {
+         TrimLeft (strtemp);
+         TrimRight (strtemp);
 
-         if ( !ncase ) {
-            icmpres = sstristr ( strbuf, strtemp ) == NULL ? 0 : 1;
+         if (!ncase) {
+            icmpres = sstristr (strbuf, strtemp) == NULL ? 0 : 1;
          }
          
          else {
-            icmpres = strstr ( strbuf, strtemp ) == NULL ? 0 : 1;
+            icmpres = strstr (strbuf, strtemp) == NULL ? 0 : 1;
          }
 
-         if ( !icmpres ) {
+         if (!icmpres) {
             nstate = cnt;
             break; 
          }
         
          else {
-            if ( !strstr ( strbuf, strtemp ) ) {
+            if (!strstr (strbuf, strtemp)) {
                nstate = cnt;
                break; 
             }
@@ -653,24 +670,24 @@ int StrStrMatch ( char *strbuf, char *strmatch, char *strsept, int ncase )
       cnt++;
    }
    
-   free ( strtemp );
+   free (strtemp);
    return nstate;
 }
 
 /* 
-    Cheap access function ( Just for seeing if a file is there, no mode checking. ). 
+    Cheap access function (Just for seeing if a file is there, no mode checking.). 
 */
-int isfile ( char *strFile )
+int isfile (char *strFile)
 {
    FILE *fp;
 
-   fp = fopen ( strFile, "r" );
+   fp = fopen (strFile, "r");
 
-   if ( !fp ) {
+   if (!fp) {
       return 0;
    }
    else {
-      fclose ( fp );
+      fclose (fp);
       return 1;
    }     
 }
@@ -678,95 +695,95 @@ int isfile ( char *strFile )
 /* 
     Inserts a string into a file. 
 */
-int InsertStrInFile ( FILE *fp, char *strToIns, long pos )
+int InsertStrInFile (FILE *fp, char *strToIns, long pos)
 {
    long linspos, lendpos;
    char *strbuff;
 
-   if ( !pos ) {
+   if (!pos) {
       linspos = 0;
    }
 
-   if ( pos == -1 ) {
-      linspos = ftell ( fp );
+   if (pos == -1) {
+      linspos = ftell (fp);
    }
 
    else {
       linspos = pos;
    }
 
-   fseek ( fp, 0L, SEEK_END );
-   lendpos = ftell ( fp );
+   fseek (fp, 0L, SEEK_END);
+   lendpos = ftell (fp);
 
-   if ( ( lendpos - linspos ) < 1 )
+   if ((lendpos - linspos) < 1)
       return 0;
 
-   strbuff = ( char * ) malloc ( ( size_t ) ( lendpos - linspos ) + 512 );
-   if ( !strbuff ) {
+   strbuff = (char *) malloc ((size_t) (lendpos - linspos) + 512);
+   if (!strbuff) {
       return 0;
    }
 
-   fseek ( fp, linspos, SEEK_SET );
-   memset ( strbuff, 0, ( size_t ) ( lendpos - linspos ) + 512 );
-   fread ( strbuff, sizeof ( char ), ( size_t ) ( lendpos - linspos ), fp );
-   fseek ( fp, linspos, SEEK_SET );
+   fseek (fp, linspos, SEEK_SET);
+   memset (strbuff, 0, (size_t) (lendpos - linspos) + 512);
+   fread (strbuff, sizeof (char), (size_t) (lendpos - linspos), fp);
+   fseek (fp, linspos, SEEK_SET);
 
-   fputs ( strToIns, fp );
-   fflush ( fp );
-   fwrite ( strbuff, sizeof ( char ), ( size_t ) ( lendpos - linspos ), fp );
+   fputs (strToIns, fp);
+   fflush (fp);
+   fwrite (strbuff, sizeof (char), (size_t) (lendpos - linspos), fp);
 
-   free ( strbuff );
+   free (strbuff);
    return 1;   
 }
 
 /* 
    Deletes a string from inside a file. 
 */
-int DeleteStrInFile ( FILE *fp, long stpos, int len )
+int DeleteStrInFile (FILE *fp, long stpos, int len)
 {
    long linspos, lendpos;
    char *strbuff;
    char strTmp[256];
 
-   puts ( "TP 554" );
-   if ( stpos == -1 ) {
-      linspos = ftell ( fp );
+   puts ("TP 554");
+   if (stpos == -1) {
+      linspos = ftell (fp);
    }
    else {
       linspos = stpos;
    }
      
-   fseek ( fp, 0L, SEEK_END );
-   lendpos = ftell ( fp );
+   fseek (fp, 0L, SEEK_END);
+   lendpos = ftell (fp);
 
-   if ( ( lendpos - linspos ) < 1 )
+   if ((lendpos - linspos) < 1)
       return 0;
 
-   strbuff = ( char * ) malloc ( ( size_t ) ( lendpos - linspos ) + len + 1 );
-   if ( !strbuff ) {
+   strbuff = (char *) malloc ((size_t) (lendpos - linspos) + len + 1);
+   if (!strbuff) {
       return 0;
    }
 
-   puts ( "TP 5544" );
-   fseek ( fp, linspos + len - 1, SEEK_SET );
-   fgets ( strTmp, 255, fp );
-   printf ( "<%s>\n", strTmp );
-   fseek ( fp, linspos + len - 1, SEEK_SET );
-   fread ( strbuff, sizeof ( char ), ( size_t ) ( lendpos - linspos ) - ( len - 1 ), fp );
-   fseek ( fp, linspos, SEEK_SET );
-   puts ( strbuff );
-   fwrite ( ( strbuff + len ), 
-          sizeof ( char ), ( size_t ) ( lendpos - linspos ) - ( len - 1 ), fp );
+   puts ("TP 5544");
+   fseek (fp, linspos + len - 1, SEEK_SET);
+   fgets (strTmp, 255, fp);
+   printf ("<%s>\n", strTmp);
+   fseek (fp, linspos + len - 1, SEEK_SET);
+   fread (strbuff, sizeof (char), (size_t) (lendpos - linspos) - (len - 1), fp);
+   fseek (fp, linspos, SEEK_SET);
+   puts (strbuff);
+   fwrite ((strbuff + len), 
+          sizeof (char), (size_t) (lendpos - linspos) - (len - 1), fp);
 
-   free ( strbuff );
-   puts ( "TP 555" );
+   free (strbuff);
+   puts ("TP 555");
    return 1;   
 }
 
 /* 
    Nifty little debug or data loging function.
 */
-int WriteLogFile ( char *strSect, char *strEntry, char *strLogEntry, char *strLogFile )
+int WriteLogFile (char *strSect, char *strEntry, char *strLogEntry, char *strLogFile)
 {
    FILE *fp;
    time_t tmt;
@@ -774,83 +791,83 @@ int WriteLogFile ( char *strSect, char *strEntry, char *strLogEntry, char *strLo
    char *ptrSection;
    char *strRetStr;
 
-   time ( &tmt );
-   tstct = localtime ( &tmt );
-   ptrSection = ( char * ) malloc ( strlen ( strSect ) + 3 );
-   strcpy ( ptrSection, strSect );
-   InsertChar ( ptrSection, '[', 0 );
-   InsertChar ( ptrSection, ']', strlen ( ptrSection ) );
+   time (&tmt);
+   tstct = localtime (&tmt);
+   ptrSection = (char *) malloc (strlen (strSect) + 3);
+   strcpy (ptrSection, strSect);
+   InsertChar (ptrSection, '[', 0);
+   InsertChar (ptrSection, ']', strlen (ptrSection));
 
-   if ( !isfile ( strLogFile ) ) {
-      fp = fopen ( strLogFile, "wb+" );
-      fprintf ( fp, "%s\n%s\n%s  %s\n", ptrSection, strEntry,
-                strLogEntry, TrimRight ( asctime ( tstct ) ) );
-      fclose ( fp );
+   if (!isfile (strLogFile)) {
+      fp = fopen (strLogFile, "wb+");
+      fprintf (fp, "%s\n%s\n%s  %s\n", ptrSection, strEntry,
+                strLogEntry, TrimRight (asctime (tstct)));
+      fclose (fp);
       return 1;
    }
    else {
-      fp = fopen ( strLogFile, "rb+" );
+      fp = fopen (strLogFile, "rb+");
    }
 
-   if ( !ptrSection || !fp ) {
-      if ( ptrSection )
-         free ( ptrSection );
-      if ( fp ) 
-         fclose ( fp );
+   if (!ptrSection || !fp) {
+      if (ptrSection)
+         free (ptrSection);
+      if (fp) 
+         fclose (fp);
       else 
          return -1;
       return -2;
    }
 
-   strRetStr = ( char * ) malloc ( 4093 );
+   strRetStr = (char *) malloc (4093);
 
-   if ( !strRetStr ) {
+   if (!strRetStr) {
       return -1;
    }
 
-   MatchStrInProfile ( fp, ptrSection, strRetStr, 1, 132 );
+   MatchStrInProfile (fp, ptrSection, strRetStr, 1, 132);
    
-   if ( *strRetStr ) {
-      MatchStrInProfile ( fp, strEntry, strRetStr, 0, 4092 );
-      if ( *strRetStr ) {
-         strcpy ( strRetStr, strLogEntry );
-         strcat ( strRetStr, "  " );
-         strcat ( strRetStr, TrimRight ( asctime ( tstct ) ) );
-         strcat ( strRetStr, "\n" );
-         InsertStrInFile ( fp, strRetStr, 0L );
+   if (*strRetStr) {
+      MatchStrInProfile (fp, strEntry, strRetStr, 0, 4092);
+      if (*strRetStr) {
+         strcpy (strRetStr, strLogEntry);
+         strcat (strRetStr, "  ");
+         strcat (strRetStr, TrimRight (asctime (tstct)));
+         strcat (strRetStr, "\n");
+         InsertStrInFile (fp, strRetStr, 0L);
       }
       else {
-         fprintf ( fp, "\n%s\n%s  %s\n", strEntry, strLogEntry,
-                   TrimRight ( asctime ( tstct ) ) );      
+         fprintf (fp, "\n%s\n%s  %s\n", strEntry, strLogEntry,
+                   TrimRight (asctime (tstct)));      
       }
    }
    else {
-      fseek ( fp, 0L, SEEK_END );
-      fprintf ( fp, "\n%s\n%s\n%s  %s\n", ptrSection, strEntry,
-                strLogEntry, TrimRight ( asctime ( tstct ) ) );
+      fseek (fp, 0L, SEEK_END);
+      fprintf (fp, "\n%s\n%s\n%s  %s\n", ptrSection, strEntry,
+                strLogEntry, TrimRight (asctime (tstct)));
    }
 
-   fclose ( fp );
-   free ( ptrSection );
-   free ( strRetStr );
+   fclose (fp);
+   free (ptrSection);
+   free (strRetStr);
    return 1;
 }
 
 /*
    Cats a set of strings together.
 */
-char *String ( int argcnt, char *strdest, ... )
+char *String (int argcnt, char *strdest, ...)
 {
    va_list args;
 
-   va_start ( args, strdest );
+   va_start (args, strdest);
    
    //*strdest = 0;
-   while ( argcnt-- ) {
-      strcat ( strdest, va_arg ( args, char * ) );
+   while (argcnt--) {
+      strcat (strdest, va_arg (args, char *));
    }
    
-   va_end ( args );
+   va_end (args);
 
    return strdest;
 }
@@ -859,40 +876,40 @@ char *String ( int argcnt, char *strdest, ... )
    This function searches for known strings, and replaces them with
    another string. 
 
-   StringReplace ( strFileName, "sqv|sqr,ruv|run,h_v|h" );
+   StringReplace (strFileName, "sqv|sqr,ruv|run,h_v|h");
 
    This example would replace all occurences of sqv, with sqr, ruv with
    run and h_v with h.
 */
-char *StringReplace ( char *strbuf, char *strPattern )
+char *StringReplace (char *strbuf, char *strPattern)
 {
    int ilen, ifld = 0;
    char *strSrch, *strRpl, *strPat;
 
-//   if ( !strPattern )
+//   if (!strPattern)
 //      return strbuf;
 
-   while ( 1 ) {
-      ilen = GetStrFldLen ( strPattern, ifld, 0, "," );
-      if ( !ilen )
+   while (1) {
+      ilen = GetStrFldLen (strPattern, ifld, 0, ",");
+      if (!ilen)
          break;
-      strPat = ( char * ) malloc ( ilen + 1 );
-      GetStrFld ( strPattern, ifld, 0, ",", strPat );
+      strPat = (char *) malloc (ilen + 1);
+      GetStrFld (strPattern, ifld, 0, ",", strPat);
       ifld++;
 
-      ilen = GetStrFldLen ( strPat, 0, 0, "|" );
-      strSrch = ( char * ) malloc ( ilen + 1 );
-      GetStrFld ( strPat, 0, 0, "|", strSrch );
+      ilen = GetStrFldLen (strPat, 0, 0, "|");
+      strSrch = (char *) malloc (ilen + 1);
+      GetStrFld (strPat, 0, 0, "|", strSrch);
 
-      ilen = GetStrFldLen ( strPat, 1, 0, "|" );
-      strRpl = ( char * ) malloc ( ilen + 1 );
-      GetStrFld ( strPat, 1, 0, "|", strRpl );
+      ilen = GetStrFldLen (strPat, 1, 0, "|");
+      strRpl = (char *) malloc (ilen + 1);
+      GetStrFld (strPat, 1, 0, "|", strRpl);
 
-      SearchReplace ( strbuf, strSrch, strRpl );
+      SearchReplace (strbuf, strSrch, strRpl);
 
-      free ( strSrch );
-      free ( strRpl );
-      free ( strPat );
+      free (strSrch);
+      free (strRpl);
+      free (strPat);
    }
 
    return strbuf;
@@ -905,26 +922,26 @@ char *StringReplace ( char *strbuf, char *strPattern )
 
    str2 is the pattern to match with.
 */
-int strwildcmp ( const char *str1, const char *str2 )
+int strwildcmp (const char *str1, const char *str2)
 {
    char c1, c2;
    
-   while ( *str1 && *str2 ) {
+   while (*str1 && *str2) {
       c1 = *str1;
       c2 = *str2;
 
-      if ( c2 == '?' ) {
+      if (c2 == '?') {
          str1++;
          str2++;
          continue;
       }
 
-      if ( c2 == '*' ) {
+      if (c2 == '*') {
          c2 = c1;
          break;
       }
 
-      if ( c1 != c2 ) {
+      if (c1 != c2) {
          break;
       }
 
@@ -942,27 +959,27 @@ int strwildcmp ( const char *str1, const char *str2 )
 
    str2 is the pattern to match with.
 */
-int strwildncmp ( const char *str1, const char *str2, int len )
+int strwildncmp (const char *str1, const char *str2, int len)
 {
    char c1, c2;
    
-   while ( *str1 && *str2 ) {
+   while (*str1 && *str2) {
       c1 = *str1;
       c2 = *str2;
       len--;
 
-      if ( c2 == '?' ) {
+      if (c2 == '?') {
          str1++;
          str2++;
          continue;
       }
 
-      if ( c2 == '*' ) {
+      if (c2 == '*') {
          c2 = c1;
          break;
       }
 
-      if ( c1 != c2 || !len ) {
+      if (c1 != c2 || !len) {
          break;
       }
 
@@ -976,12 +993,12 @@ int strwildncmp ( const char *str1, const char *str2, int len )
 /*
    Cmps a string to a char.
 */
-int strcharcmp ( const char *str1, char chr )
+int strcharcmp (const char *str1, char chr)
 {
    int ires = 1;
 
-   while ( *str1 ) {
-      if ( *str1 != chr ) {
+   while (*str1) {
+      if (*str1 != chr) {
          ires = 0;
          break;
       }
@@ -995,16 +1012,16 @@ int strcharcmp ( const char *str1, char chr )
 /*
    Cmps a string to a char.
 */
-int strcharncmp ( const char *str1, char chr, int len )
+int strcharncmp (const char *str1, char chr, int len)
 {
    int ires = 1;
 
-   while ( *str1 ) {
-      if ( !len ) {
+   while (*str1) {
+      if (!len) {
          break;
       }
 
-      if ( *str1 != chr ) {
+      if (*str1 != chr) {
          ires = 0;
          break;
       }
@@ -1016,70 +1033,70 @@ int strcharncmp ( const char *str1, char chr, int len )
    return ires;
 }
 
-long fcopy ( char *dest, char *source )
+long fcopy (char *dest, char *source)
 {
    FILE *fpd, *fps;
    char *buffer;
    size_t incount;
    long totcount = 0L;
 
-   fps = fopen ( source, "rb" );
-   if ( !fps )
+   fps = fopen (source, "rb");
+   if (!fps)
       return -1L;
 
-   fpd = fopen ( dest, "wb" );
-   if ( !fpd ) {
-      fclose ( fps );
-      return -1L;
-   }
-
-   buffer = ( char * ) malloc ( BUFFER_SIZE );
-   if ( !buffer ) {
-      fclose ( fps );
-      fclose ( fpd );
+   fpd = fopen (dest, "wb");
+   if (!fpd) {
+      fclose (fps);
       return -1L;
    }
 
-   incount = fread ( buffer, sizeof ( char ), BUFFER_SIZE, fps );
-
-   while ( !feof ( fps ) ) {
-      totcount += ( long ) incount;
-      fwrite ( buffer, sizeof ( char ), incount, fpd );
-      incount = fread ( buffer, sizeof ( char ), BUFFER_SIZE, fps );
+   buffer = (char *) malloc (BUFFER_SIZE);
+   if (!buffer) {
+      fclose (fps);
+      fclose (fpd);
+      return -1L;
    }
 
-   totcount += ( long ) incount;
-   fwrite ( buffer, sizeof ( char ), incount, fpd );
+   incount = fread (buffer, sizeof (char), BUFFER_SIZE, fps);
 
-   free ( buffer );
-   fclose ( fps );
-   fclose ( fpd );
+   while (!feof (fps)) {
+      totcount += (long) incount;
+      fwrite (buffer, sizeof (char), incount, fpd);
+      incount = fread (buffer, sizeof (char), BUFFER_SIZE, fps);
+   }
+
+   totcount += (long) incount;
+   fwrite (buffer, sizeof (char), incount, fpd);
+
+   free (buffer);
+   fclose (fps);
+   fclose (fpd);
 
    return totcount;
 }
 
-char *WordWrapStr ( char *strBuff, int iWid )
+char *WordWrapStr (char *strBuff, int iWid)
 {
    char *strTmp = strBuff;
    int iCnt = 0;
 
-   ReplaceCharsWith ( strBuff, "\n", ' ' );   
-   while ( *strTmp ) {
-      if ( ( int ) strlen ( strTmp ) > ( int ) iWid ) {
+   ReplaceCharsWith (strBuff, "\n", ' ');   
+   while (*strTmp) {
+      if ((int) strlen (strTmp) > (int) iWid) {
          iCnt = iWid; 
-         while ( *( strTmp + iCnt ) ) {
-            if ( strchr ( " .?;!,", *( strTmp + iCnt ) ) ) {
-               TrimLeft ( ( strTmp + iCnt ) );
-               InsertChar ( strTmp, '\n', iCnt );
+         while (*(strTmp + iCnt)) {
+            if (strchr (" .?;!,", *(strTmp + iCnt))) {
+               TrimLeft ((strTmp + iCnt));
+               InsertChar (strTmp, '\n', iCnt);
                strTmp += iCnt + 1; 
                break;
             }
             iCnt--;
 
-            if ( !iCnt ) {
-               if ( strchr ( " .?;!,", *( strTmp + iCnt ) ) ) {
-                  TrimLeft ( ( strTmp + iWid ) );
-                  InsertChar ( strTmp, '\n', iWid );
+            if (!iCnt) {
+               if (strchr (" .?;!,", *(strTmp + iCnt))) {
+                  TrimLeft ((strTmp + iWid));
+                  InsertChar (strTmp, '\n', iWid);
                   strTmp += iWid + 1; 
                   break;
                }
@@ -1095,170 +1112,170 @@ char *WordWrapStr ( char *strBuff, int iWid )
 }
 
 /* 
-    Structured Config file writer.  ( Windows .ini style. ) (NEEDS work!!!)
+    Structured Config file writer.  (Windows .ini style.) (NEEDS work!!!)
 */
-int WriteProfileStr ( char *strSect, char *strEntry, char *strLogEntry, char *strLogFile )
+int WriteProfileStr (char *strSect, char *strEntry, char *strLogEntry, char *strLogFile)
 {
    FILE *fp;
    char *ptrSection;
    char *strRetStr;
 
-   ptrSection = ( char * ) malloc ( strlen ( strSect ) + 3 );
-   strcpy ( ptrSection, strSect );
-   InsertChar ( ptrSection, '[', 0 );
-   InsertChar ( ptrSection, ']', strlen ( ptrSection ) );
+   ptrSection = (char *) malloc (strlen (strSect) + 3);
+   strcpy (ptrSection, strSect);
+   InsertChar (ptrSection, '[', 0);
+   InsertChar (ptrSection, ']', strlen (ptrSection));
 
-   if ( !isfile ( strLogFile ) ) {
-      fp = fopen ( strLogFile, "wb+" );
-      fprintf ( fp, "%s\n%s=%s\n", ptrSection, strEntry, strLogEntry );
-      fclose ( fp );
+   if (!isfile (strLogFile)) {
+      fp = fopen (strLogFile, "wb+");
+      fprintf (fp, "%s\n%s=%s\n", ptrSection, strEntry, strLogEntry);
+      fclose (fp);
       return 1;
    }
    else {
-      fp = fopen ( strLogFile, "rb+" );
+      fp = fopen (strLogFile, "rb+");
    }
 
-   if ( !ptrSection || !fp ) {
-      if ( ptrSection )
-         free ( ptrSection );
-      if ( fp ) 
-         fclose ( fp );
+   if (!ptrSection || !fp) {
+      if (ptrSection)
+         free (ptrSection);
+      if (fp) 
+         fclose (fp);
       else 
          return -1;
       return -2;
    }
 
-   strRetStr = ( char * ) malloc ( 512 );
+   strRetStr = (char *) malloc (512);
 
-   if ( !strRetStr ) {
+   if (!strRetStr) {
       return -1;
    }
 
-   MatchStrInProfile ( fp, ptrSection, strRetStr, 1, 132 );
+   MatchStrInProfile (fp, ptrSection, strRetStr, 1, 132);
    
-   if ( *strRetStr ) {
-      MatchStrInProfile ( fp, strEntry, strRetStr, 0, 512 );
-      if ( *strRetStr ) {
-         fseek ( fp, ( ftell ( fp ) - strlen ( strRetStr ) ), SEEK_SET );
-         DeleteStrInFile ( fp, -1, strlen ( strRetStr ) + 2 );
-         fseek ( fp, ( ftell ( fp ) - strlen ( strRetStr ) ) - 1, SEEK_SET );
-         strcpy ( strRetStr, strEntry );
-         strcat ( strRetStr, "=" );
-         strcat ( strRetStr, strLogEntry );
-         strcat ( strRetStr, "\n" );
-         InsertStrInFile ( fp, strRetStr, -1 );
+   if (*strRetStr) {
+      MatchStrInProfile (fp, strEntry, strRetStr, 0, 512);
+      if (*strRetStr) {
+         fseek (fp, (ftell (fp) - strlen (strRetStr)), SEEK_SET);
+         DeleteStrInFile (fp, -1, strlen (strRetStr) + 2);
+         fseek (fp, (ftell (fp) - strlen (strRetStr)) - 1, SEEK_SET);
+         strcpy (strRetStr, strEntry);
+         strcat (strRetStr, "=");
+         strcat (strRetStr, strLogEntry);
+         strcat (strRetStr, "\n");
+         InsertStrInFile (fp, strRetStr, -1);
       }
 
       else {
-         fprintf ( fp, "%s=%s\n", strEntry, strLogEntry );      
+         fprintf (fp, "%s=%s\n", strEntry, strLogEntry);      
       }
    }
    else {
-      fseek ( fp, 0L, SEEK_END );
-      fprintf ( fp, "%s\n%s=%s\n", ptrSection, strEntry, strLogEntry );
+      fseek (fp, 0L, SEEK_END);
+      fprintf (fp, "%s\n%s=%s\n", ptrSection, strEntry, strLogEntry);
    }
 
-   fclose ( fp );
-   free ( ptrSection );
-   free ( strRetStr );
+   fclose (fp);
+   free (ptrSection);
+   free (strRetStr);
    return 1;
 }
 
-char *GetFileName ( char *strFullPath )
+char *GetFileName (char *strFullPath)
 {
    int iLen;
    char *strTmp;
 
-   iLen = strlen ( strFullPath ); 
+   iLen = strlen (strFullPath); 
 
-   strTmp = ( strFullPath + strlen ( strFullPath ) );
-   while ( 1 ) {
-      if ( *strTmp == '\\' || !iLen )
+   strTmp = (strFullPath + strlen (strFullPath));
+   while (1) {
+      if (*strTmp == '\\' || !iLen)
          break;
       strTmp--;
       iLen--;
    }
 
-   if ( *strTmp == '\\' )
+   if (*strTmp == '\\')
       strTmp++;
 
    return strTmp;
 }
 
-char *GetPathName ( char *strFullPath, char *strRetPath )
+char *GetPathName (char *strFullPath, char *strRetPath)
 {
    int iLen;
    char *strTmp;
 
-   strcpy ( strRetPath, strFullPath );
-   iLen = strlen ( strRetPath ); 
+   strcpy (strRetPath, strFullPath);
+   iLen = strlen (strRetPath); 
 
-   strTmp = ( strRetPath + iLen );
-   while ( 1 ) {
-      if ( *strTmp == '\\' || !iLen )
+   strTmp = (strRetPath + iLen);
+   while (1) {
+      if (*strTmp == '\\' || !iLen)
          break;
       strTmp--;
       iLen--;
    }
 
-   if ( *strTmp == '\\' ) {
-      *strTmp = ( char ) 0;
+   if (*strTmp == '\\') {
+      *strTmp = (char) 0;
       strTmp++;
    }
 
    return strRetPath;
 }
 
-int fdebug ( char *strDebugFile, char *strText1, char *strText2 )
+int fdebug (char *strDebugFile, char *strText1, char *strText2)
 {
    FILE *fp;
    time_t tmt;
    struct tm *tstct;
 
-   if ( !strDebugFile || !*strDebugFile )
+   if (!strDebugFile || !*strDebugFile)
       return 0;      
 
-   time ( &tmt );
-   tstct = localtime ( &tmt );
+   time (&tmt);
+   tstct = localtime (&tmt);
 
-   if ( !strDebugFile || !*strDebugFile )
+   if (!strDebugFile || !*strDebugFile)
       return 0;
 
-   fp = fopen ( strDebugFile, "a+" );
-   if ( !fp )
+   fp = fopen (strDebugFile, "a+");
+   if (!fp)
       return 1;
 
-   fprintf ( fp, "%s %s %s\n", strText1, strText2, Trim ( asctime ( tstct ) ) );
-   fclose ( fp );
+   fprintf (fp, "%s %s %s\n", strText1, strText2, Trim (asctime (tstct)));
+   fclose (fp);
    return 0;  
 }
 
-int flog ( char *strFile, char *strbuff )
+int flog (char *strFile, char *strbuff)
 {
    FILE *fp;
 
-   if ( !strFile || !*strFile )
+   if (!strFile || !*strFile)
       return 0;      
 
-   fp = fopen ( strFile, "a+" );
-   if ( !fp )
+   fp = fopen (strFile, "a+");
+   if (!fp)
       return 1;
-   fprintf ( fp, "%s\n", strbuff );
-   fclose ( fp );  
+   fprintf (fp, "%s\n", strbuff);
+   fclose (fp);  
    return 0;
 }
 
-int fclrlog ( char *strFile )
+int fclrlog (char *strFile)
 {
    FILE *fp;
 
-   if ( !strFile || !*strFile )
+   if (!strFile || !*strFile)
       return 0;      
 
-   fp = fopen ( strFile, "w" );
-   if ( !fp )
+   fp = fopen (strFile, "w");
+   if (!fp)
       return 1;
-   fclose ( fp );  
+   fclose (fp);  
    return 0;
 }
 
@@ -1270,28 +1287,28 @@ int fclrlog ( char *strFile )
     ---------------------------------------------------------------------[>]-*/
 
 static int 
-sstricmp ( 
+sstricmp (
     const char *str1, 
-    const char *str2 )
+    const char *str2)
 {
    register char c1, c2;
 
-   while ( *str1 ) 
+   while (*str1) 
      {
-       c1 = toupper ( ( int ) *str1++ );
-       c2 = toupper ( ( int ) *str2++ );
+       c1 = toupper ((int) *str1++);
+       c2 = toupper ((int) *str2++);
 
-       if ( c1 < c2 ) 
+       if (c1 < c2) 
          {
            return -1;
          }
-       else if ( c1 > c2 ) 
+       else if (c1 > c2) 
          {
            return 1;
          }
      }
 
-   if ( *str2 ) 
+   if (*str2) 
      {
        return -1;
      } 
@@ -1309,35 +1326,35 @@ sstricmp (
     ---------------------------------------------------------------------[>]-*/
 
 static int 
-sstrnicmp ( 
+sstrnicmp (
     const char *str1, 
     const char *str2, 
-    int len )
+    int len)
 {
    register char c1, c2;
 
-   while ( *str1 ) 
+   while (*str1) 
      {
-       c1 = toupper ( ( int ) *str1++ );
-       c2 = toupper ( ( int ) *str2++ );
+       c1 = toupper ((int) *str1++);
+       c2 = toupper ((int) *str2++);
        len--;
 
-       if ( c1 < c2 ) 
+       if (c1 < c2) 
          {
            return -1;
          }
-       else if ( c1 > c2 ) 
+       else if (c1 > c2) 
          {
            return 1;
          }
 
-       if ( !len ) 
+       if (!len) 
          {
            return 0;
          }
      }
 
-   if ( *str2 || *str2 ) 
+   if (*str2 || *str2) 
      {
        return -1;
      } 
@@ -1355,26 +1372,26 @@ sstrnicmp (
     ---------------------------------------------------------------------[>]-*/
 
 static char *
-sstristr ( 
+sstristr (
     const char *str1, 
-    const char *str2 )
+    const char *str2)
 {
-   char *strtmp = ( char * ) str1;
+   char *strtmp = (char *) str1;
    int iret = 1;
 
-   while ( *strtmp ) 
+   while (*strtmp) 
      {
-       if ( strlen ( strtmp ) >= strlen ( str2 ) ) 
+       if (strlen (strtmp) >= strlen (str2)) 
          {
-//           iret = strnicmp ( strtmp, str2, strlen ( str2 ) );
-           iret = strncmp ( strtmp, str2, strlen ( str2 ) );
+//           iret = strnicmp (strtmp, str2, strlen (str2));
+           iret = strncmp (strtmp, str2, strlen (str2));
          }
        else 
          {
            break;
          }
 
-       if ( !iret ) 
+       if (!iret) 
          {
            break;
          }
@@ -1382,7 +1399,7 @@ sstristr (
        strtmp++;
      }
 
-   return !iret ? strtmp : ( char * ) NULL;
+   return !iret ? strtmp : (char *) NULL;
 }
 
 char ** split (char* str, char sep, int *list_size)
